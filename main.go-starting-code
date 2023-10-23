@@ -1,0 +1,51 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+)
+
+type Performance struct {
+	Type string `json:"type"`
+	Audience int `json:"audience"`
+}
+
+func (p *Performance) Amount() float64 {
+	if p.Type == "tragedy" {
+		return float64(p.Audience) * 100
+	}
+
+	if p.Type == "comedy" {
+		return float64(p.Audience) * 150
+	}
+
+	panic("unknown play type")
+}
+
+type Invoice struct {
+	Performances []Performance `json:"performances"`
+}
+
+func (i *Invoice) TotalAmount() float64 {
+	var amount float64
+	for _, performance := range i.Performances {
+		amount += performance.Amount()
+	}
+	return amount
+}
+
+func main() {
+	file, err := os.Open("invoices.json")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	var invoices []Invoice
+	if err = json.NewDecoder(file).Decode(&invoices); err!= nil {
+		panic(err)
+	}
+
+	fmt.Printf("Total amount: ₹%.2f\n", invoices[0].TotalAmount())
+}

@@ -1,0 +1,19 @@
+[
+    {
+        "customer": "Bigco",
+        "performances": [
+            {
+                "type": "tragedy",
+                "audience": 55
+            },
+            {
+                "type": "comedy",
+                "audience": 35
+            },
+            {
+                "type": "tragedy",
+                "audience": 40
+            }
+        ]
+    }
+]
